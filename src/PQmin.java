@@ -18,7 +18,7 @@ public class PQmin <Item extends Comparable<Item>> {
      * @param maxN
      */
     public PQmin (int maxN) {
-        Item[] a = (Item[]) new Object[maxN + 1];
+        a = (Item[]) new Comparable[maxN + 1];
         int N = 0;
     }
 
@@ -47,7 +47,7 @@ public class PQmin <Item extends Comparable<Item>> {
         Item min = a[1];
         exch(1, N);
         N--;
-        a[N=1] = null;
+        a[N+1] = null;
         sink(1);
         return min;
     }
@@ -123,4 +123,17 @@ public class PQmin <Item extends Comparable<Item>> {
         a[k] = temp;
     }
 
+    public static void main(String[] args) {
+        PQmin<Integer> pq = new PQmin<>(100);
+        String[] a = TextFileHandler.readStringsFromFile("./resources/numbers100.txt", 100);
+
+        for (String s : a) {
+            pq.insert(Integer.parseInt(s));
+        }
+
+        while (!pq.isEmpty()) {
+            System.out.println(pq.delMin());
+        }
+
+    }
 }
