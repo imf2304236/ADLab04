@@ -6,12 +6,13 @@ public class PQmin <Item extends Comparable<Item>> {
     private Item[] a;
     private int N;
 
-//    /**
-//     *
-//     */
-//    public PQmin () {
-//
-//    }
+    /**
+     *
+     */
+    public PQmin () {
+        a = (Item[]) new Comparable[1];
+        int N = 0;
+    }
 
     /**
      *
@@ -35,7 +36,7 @@ public class PQmin <Item extends Comparable<Item>> {
      * @param item
      */
     public void insert(Item item) {
-        if (N == a.length) {
+        if (N+1 == a.length) {
             resize(2*a.length);
         }
         a[++N] = item;
@@ -105,7 +106,7 @@ public class PQmin <Item extends Comparable<Item>> {
 
     private void resize(int max) {
         Item[] temp = (Item[]) new Comparable[max + 1];
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i <= N; i++) {
             temp[i] = a[i];
         }
         a = temp;
@@ -138,6 +139,8 @@ public class PQmin <Item extends Comparable<Item>> {
     }
 
     public static void main(String[] args) {
+
+        // Test Case 1
         PQmin<Integer> pq = new PQmin<>(100);
         String[] a = TextFileHandler.readStringsFromFile("./resources/numbers100.txt", 100);
 
@@ -149,5 +152,39 @@ public class PQmin <Item extends Comparable<Item>> {
             System.out.println(pq.delMin());
         }
 
+        // Test Case 2
+        pq = new PQmin<>();
+        a = TextFileHandler.readStringsFromFile("./resources/numbers100.txt", 100);
+
+        for (String s : a) {
+            pq.insert(Integer.parseInt(s));
+        }
+
+        while (!pq.isEmpty()) {
+            System.out.println(pq.delMin());
+        }
+
+        // Test Case 3
+        pq = new PQmin<>(10000);
+        a = TextFileHandler.readStringsFromFile("./resources/numbers10000.txt", 10000);
+
+        for (String s : a) {
+            pq.insert(Integer.parseInt(s));
+        }
+
+        Comparable next, last;
+        last = pq.delMin();
+
+        try {
+            while (!pq.isEmpty()) {
+                next = pq.delMin();
+                if (last.compareTo(next) > 0) {
+                    throw new Exception("Heap not sorted.");
+                }
+                last = next;
+            }
+        } catch (Exception e) {
+            System.err.print(e);
+        }
     }
 }
