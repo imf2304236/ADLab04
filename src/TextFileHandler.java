@@ -3,8 +3,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * ADLab03
- * Created by IF on 08.11.17.
+ * <pre>
+ * ADL Lab 04
+ * Ian Fennie: 2304236
+ * 21.10.17
+ *
+ * Project file compiled with Javac using JetBrains IntelliJ IDEA 2017.2.5
+ * </pre>
+ *
+ * An implementation of a Text File Handler which allows a user to read
+ * a number of lines of text from a text file and parse them into various
+ * various data types.
  */
 public class TextFileHandler {
     /**
@@ -113,15 +122,4 @@ public class TextFileHandler {
         }
         return a;
     }
-
-    /*
-    public static void writeToFile() {
-        try {
-            Path filePath = Paths.get(FILE).toAbsolutePath();
-            FileWriter writer = new FileWriter(filePath.toString());
-        } catch (IOException e) {
-            System.err.println(e);
-        }
-    }
-    */
 }

@@ -1,6 +1,14 @@
 /**
- * IntelliJ Project
- * Created by IF on 20.11.17.
+ * <pre>
+ * ADL Lab 04
+ * Ian Fennie: 2304236
+ * 21.10.17
+ *
+ * Project file compiled with Javac using JetBrains IntelliJ IDEA 2017.2.5
+ * </pre>
+ *
+ * An implementation of a Priority Queue which is heap sorted according the minimum value.
+ * @param <Item> generic Type of elements to be stored and sorted
  */
 public class PQmin <Item extends Comparable<Item>> {
     private Item[] a;
@@ -24,8 +32,8 @@ public class PQmin <Item extends Comparable<Item>> {
     }
 
     /**
-     *
-     * @param items
+     * Construct a heap sorted Minimum Priority Queue from an array of objects
+     * @param items the Array of objects to be heap sorted
      */
     public PQmin (Item[] items) {
         a = (Item[]) new Comparable[items.length + 1];
@@ -35,8 +43,8 @@ public class PQmin <Item extends Comparable<Item>> {
     }
 
     /**
-     *
-     * @param item
+     * Add and sort an object into the Minimum Priority Queue
+     * @param item the Object to be added and sorted
      */
     public void insert(Item item) {
         if (N+1 == a.length) {
@@ -47,8 +55,8 @@ public class PQmin <Item extends Comparable<Item>> {
     }
 
     /**
-     *
-     * @return
+     * Returns and deletes the object in the Queue with the lowest comparable value
+     * @return the Object in the Queue with the lowest value
      */
     public Item delMin() {
         Item min = a[1];
@@ -63,25 +71,21 @@ public class PQmin <Item extends Comparable<Item>> {
     }
 
     /**
-     *
-     * @return
+     * Determines whether the Minimum Priority Queue is empty.
+     * @return true if the Minimum Priority Queue is empty; false otherwise.
      */
     public boolean isEmpty() {
         return N == 0;
     }
 
     /**
-     *
-     * @return
+     * Returns the size of the Minimum Priority Queue
+     * @return the integer number of elements in the Queue
      */
     public int size() {
         return N;
     }
 
-    /**
-     *
-     * @param k
-     */
     private void swim(int k) {
         while (k > 1 && less(k, k/2)) {
             exch(k/2, k);
@@ -89,10 +93,6 @@ public class PQmin <Item extends Comparable<Item>> {
         }
     }
 
-    /**
-     *
-     * @param k
-     */
     private void sink(int k) {
         while (2*k <= N) {
             int j = 2*k;
@@ -115,12 +115,6 @@ public class PQmin <Item extends Comparable<Item>> {
         a = temp;
     }
 
-    /**
-     *
-     * @param v
-     * @param w
-     * @return
-     */
     private boolean less(int v, int w) {
         if (a[v].compareTo(a[w]) < 0) {
             return true;
@@ -130,11 +124,6 @@ public class PQmin <Item extends Comparable<Item>> {
         }
     }
 
-    /**
-     *
-     * @param j
-     * @param k
-     */
     private void exch(int j, int k) {
         Item temp = a[j];
         a[j] = a[k];
