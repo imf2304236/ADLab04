@@ -78,6 +78,42 @@ public class TextFileHandler {
         return a;
     }
 
+    /**
+     * Read lines of a text file and store as integers in an array
+     * @param sourceFile String of pathname of text file to read
+     * @param N Number of lines to be read
+     * @return Array of integers read from file
+     */
+    public static Integer[] readIntegersFromFile(String sourceFile, int N) {
+        Integer[] a = new Integer[N];
+        BufferedReader reader = null;
+
+        try {
+            Path filePath = Paths.get(sourceFile).toAbsolutePath();
+            reader = new BufferedReader(new FileReader(filePath.toString()));
+            String line;
+            line = reader.readLine();
+            int i = 0;
+
+            while(line != null) {
+                a[i] = Integer.parseInt(line);
+                line = reader.readLine();
+                i++;
+            }
+        } catch (IOException e) {
+            System.err.println(e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e){
+                    System.err.println(e);
+                }
+            }
+        }
+        return a;
+    }
+
     /*
     public static void writeToFile() {
         try {
