@@ -7,7 +7,7 @@ public class PQmin <Item extends Comparable<Item>> {
     private int N;
 
     /**
-     *
+     * Construct an empty Minimum Priority Queue
      */
     public PQmin () {
         a = (Item[]) new Comparable[1];
@@ -15,21 +15,24 @@ public class PQmin <Item extends Comparable<Item>> {
     }
 
     /**
-     *
-     * @param maxN
+     * Construct an empty Minimum Priority Queue of an initial size
+     * @param maxN the Integer value of the inital size of the Minimum Priority Queue
      */
     public PQmin (int maxN) {
         a = (Item[]) new Comparable[maxN + 1];
         int N = 0;
     }
 
-//    /**
-//     *
-//     * @param a
-//     */
-//    public PQmin (Item[] a) {
-//
-//    }
+    /**
+     *
+     * @param items
+     */
+    public PQmin (Item[] items) {
+        a = (Item[]) new Comparable[items.length + 1];
+        for (Item item : items) {
+            this.insert(item);
+        }
+    }
 
     /**
      *
@@ -142,10 +145,10 @@ public class PQmin <Item extends Comparable<Item>> {
 
         // Test Case 1
         PQmin<Integer> pq = new PQmin<>(100);
-        String[] a = TextFileHandler.readStringsFromFile("./resources/numbers100.txt", 100);
+        Integer[] a = TextFileHandler.readIntegersFromFile("./resources/numbers100.txt", 100);
 
-        for (String s : a) {
-            pq.insert(Integer.parseInt(s));
+        for (Integer k : a) {
+            pq.insert(k);
         }
 
         while (!pq.isEmpty()) {
@@ -154,10 +157,10 @@ public class PQmin <Item extends Comparable<Item>> {
 
         // Test Case 2
         pq = new PQmin<>();
-        a = TextFileHandler.readStringsFromFile("./resources/numbers100.txt", 100);
+        a = TextFileHandler.readIntegersFromFile("./resources/numbers100.txt", 100);
 
-        for (String s : a) {
-            pq.insert(Integer.parseInt(s));
+        for (Integer k : a) {
+            pq.insert(k);
         }
 
         while (!pq.isEmpty()) {
@@ -166,13 +169,31 @@ public class PQmin <Item extends Comparable<Item>> {
 
         // Test Case 3
         pq = new PQmin<>(10000);
-        a = TextFileHandler.readStringsFromFile("./resources/numbers10000.txt", 10000);
+        a = TextFileHandler.readIntegersFromFile("./resources/numbers10000.txt", 10000);
 
-        for (String s : a) {
-            pq.insert(Integer.parseInt(s));
+        for (Integer k : a) {
+            pq.insert(k);
         }
 
         Comparable next, last;
+        last = pq.delMin();
+
+        try {
+            while (!pq.isEmpty()) {
+                next = pq.delMin();
+                if (last.compareTo(next) > 0) {
+                    throw new Exception("Heap not sorted.");
+                }
+                last = next;
+            }
+        } catch (Exception e) {
+            System.err.print(e);
+        }
+
+        // Test Case 4
+        a = TextFileHandler.readIntegersFromFile("./resources/numbers10000.txt", 10000);
+        pq = new PQmin<>(a);
+
         last = pq.delMin();
 
         try {
