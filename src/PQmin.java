@@ -35,6 +35,9 @@ public class PQmin <Item extends Comparable<Item>> {
      * @param item
      */
     public void insert(Item item) {
+        if (N == a.length) {
+            resize(2*a.length);
+        }
         a[++N] = item;
         swim(N);
     }
@@ -49,6 +52,9 @@ public class PQmin <Item extends Comparable<Item>> {
         N--;
         a[N+1] = null;
         sink(1);
+        if (N > 0 && N < a.length/4) {
+            resize(a.length/2);
+        }
         return min;
     }
 
@@ -95,6 +101,14 @@ public class PQmin <Item extends Comparable<Item>> {
             exch(k, j);
             k = j;
         }
+    }
+
+    private void resize(int max) {
+        Item[] temp = (Item[]) new Comparable[max + 1];
+        for (int i = 0; i < N; i++) {
+            temp[i] = a[i];
+        }
+        a = temp;
     }
 
     /**
