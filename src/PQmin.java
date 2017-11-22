@@ -43,6 +43,65 @@ public class PQmin <Item extends Comparable<Item>> {
     }
 
     /**
+     *
+     */
+    public static class Pair implements Comparable<Pair> {
+        String key;
+        Double value;
+
+        /**
+         *
+         * @param k
+         * @param v
+         */
+        public Pair(String k, Double v) {
+            key = k;
+            value = v;
+        }
+
+        /**
+         *
+         * @param o
+         * @return
+         */
+        public int compareTo(Pair o) {
+            return this.value.compareTo(o.value);
+        }
+
+        /**
+         *
+         * @return
+         */
+        public String getKey() {
+            return key;
+        }
+
+        /**
+         *
+         * @return
+         */
+        public double getValue() {
+            return value;
+        }
+
+        /**
+         *
+         * @param string
+         */
+        public void setKey(String string) {
+            key = string;
+        }
+
+        /**
+         *
+         * @param d
+         */
+        public void setValue(Double d) {
+            value = d;
+        }
+    }
+
+    /**
      * Add and sort an object into the Minimum Priority Queue
      * @param item the Object to be added and sorted
      */
@@ -192,6 +251,28 @@ public class PQmin <Item extends Comparable<Item>> {
                     throw new Exception("Heap not sorted.");
                 }
                 last = next;
+            }
+        } catch (Exception e) {
+            System.err.print(e);
+        }
+
+        // Test Case 5
+        Pair[] b = TextFileHandler.readPairsFromFile("./resources/Price-Power.txt", 72, 1);
+        PQmin<Pair> pairMinPQ = new PQmin<>(b);
+
+        Pair lastPair, nextPair;
+        lastPair = pairMinPQ.delMin();
+
+        System.out.println();
+
+        try {
+            while (!pairMinPQ.isEmpty()) {
+                nextPair = pairMinPQ.delMin();
+                if (lastPair.compareTo(nextPair) > 0) {
+                    throw new Exception("Heap not sorted.");
+                }
+                System.out.printf("%s   %f\n", lastPair.getKey(), lastPair.getValue());
+                lastPair = nextPair;
             }
         } catch (Exception e) {
             System.err.print(e);
