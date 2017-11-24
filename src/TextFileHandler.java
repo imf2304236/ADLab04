@@ -1,6 +1,7 @@
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 
 /**
  * <pre>
@@ -108,6 +109,56 @@ public class TextFileHandler {
                 a[i] = Integer.parseInt(line);
                 line = reader.readLine();
                 i++;
+            }
+        } catch (IOException e) {
+            System.err.println(e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e){
+                    System.err.println(e);
+                }
+            }
+        }
+        return a;
+    }
+
+    public static PQmin.Pair[] readPairsFromFile(String sourceFile, int N, int lineNum) {
+        PQmin.Pair[] a = new PQmin.Pair[N];
+        BufferedReader reader = null;
+
+        try {
+            Path filePath = Paths.get(sourceFile).toAbsolutePath();
+            reader = new BufferedReader(new FileReader(filePath.toString()));
+            String line = reader.readLine();
+            for (int i = 1; i <= lineNum; i++) {
+                line = reader.readLine(); // Skip first line
+            }
+
+            int i = 0;
+            while(i < N) {
+                a[i] = new PQmin.Pair(null, null);
+                String[] s = line.split("\\s{2,}");
+                s[0] = s[0].trim().replace(",", ".");
+
+
+                for (int j = 0; j < s.length; j++) {
+                    if (j == 0) {
+
+                        try {
+                            a[i].setValue(Double.parseDouble(s[j]));
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
+                    } else {
+                        a[i].setKey(s[j]);
+                    }
+                }
+
+                line = reader.readLine();
+                i++;
+
             }
         } catch (IOException e) {
             System.err.println(e);

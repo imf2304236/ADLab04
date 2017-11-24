@@ -43,6 +43,65 @@ public class PQmin <Item extends Comparable<Item>> {
     }
 
     /**
+     * Inner class which stores a String and Double as a Key-Value pair
+     */
+    public static class Pair implements Comparable<Pair> {
+        String key;
+        Double value;
+
+        /**
+         * Store key and value data in instance fields
+         * @param k String representing Key value
+         * @param v Double representing Double value
+         */
+        public Pair(String k, Double v) {
+            key = k;
+            value = v;
+        }
+
+        /**
+         * Compares the value field of this instance to the value field another Pair instance
+         * @param o Pair to compare to
+         * @return Integer value of 1 if value is greater than comparison, 0 if equal, -1 otherwise
+         */
+        public int compareTo(Pair o) {
+            return this.value.compareTo(o.value);
+        }
+
+        /**
+         * Returns the String stored as the instance's key
+         * @return String representing the instance's key
+         */
+        public String getKey() {
+            return key;
+        }
+
+        /**
+         * Returns the Double stored as the instance's value
+         * @return Double representing the instance's value
+         */
+        public double getValue() {
+            return value;
+        }
+
+        /**
+         * Updates the instance's key with a new String
+         * @param string String to be stored as the instance's new key
+         */
+        public void setKey(String string) {
+            key = string;
+        }
+
+        /**
+         * Updates the instance's value with a new Double
+         * @param d Double value to be stored as the instance's new value
+         */
+        public void setValue(Double d) {
+            value = d;
+        }
+    }
+
+    /**
      * Add and sort an object into the Minimum Priority Queue
      * @param item the Object to be added and sorted
      */
@@ -192,6 +251,28 @@ public class PQmin <Item extends Comparable<Item>> {
                     throw new Exception("Heap not sorted.");
                 }
                 last = next;
+            }
+        } catch (Exception e) {
+            System.err.print(e);
+        }
+
+        // Test Case 5
+        Pair[] b = TextFileHandler.readPairsFromFile("./resources/Price-Power.txt", 72, 1);
+        PQmin<Pair> pairMinPQ = new PQmin<>(b);
+
+        Pair lastPair, nextPair;
+        lastPair = pairMinPQ.delMin();
+
+        System.out.println();
+
+        try {
+            while (!pairMinPQ.isEmpty()) {
+                nextPair = pairMinPQ.delMin();
+                if (lastPair.compareTo(nextPair) > 0) {
+                    throw new Exception("Heap not sorted.");
+                }
+                System.out.printf("%22s%18.1f\n", lastPair.getKey(), lastPair.getValue());
+                lastPair = nextPair;
             }
         } catch (Exception e) {
             System.err.print(e);
